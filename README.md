@@ -9,8 +9,7 @@
 - **LocalDB**: Banco de dados local para desenvolvimento (SQL Server).
   
 ### Frontend
-- **React**: Biblioteca para construção da interface de usuário.
-- **TypeScript**: Superset do JavaScript que adiciona tipagem estática.
+- **React TypeScript**: Biblioteca para construção da interface de usuário.
 - **Ant Design (antd)**: Biblioteca de componentes UI para React.
 - **Redux Toolkit (RTK Query)**: Gerenciamento de estado e chamadas API.
 - **react-router-dom**: Roteamento no frontend.

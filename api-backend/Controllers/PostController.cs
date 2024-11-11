@@ -72,9 +72,10 @@ namespace api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var username = User.GetUsername();
+            var username = User.GetUsernameOrEmail();
             var appUser = await _userManager.FindByNameAsync(username);
-
+            if (appUser == null)
+                appUser = await _userManager.FindByEmailAsync(username);
             var PostModel = PostDto.ToPostFromCreate();
             PostModel.AppUserId = appUser.Id;
             await _postRepo.CreateAsync(PostModel);

@@ -35,7 +35,6 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    // console.log(token)
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);

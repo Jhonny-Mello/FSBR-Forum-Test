@@ -38,8 +38,17 @@ namespace api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var username = User.GetUsername();
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            foreach (var claim in claims)
+            {
+                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+            }
+
+
+            var username = User.GetUsernameOrEmail();
             var appUser = await _userManager.FindByNameAsync(username);
+            if (appUser == null)
+                appUser = await _userManager.FindByEmailAsync(username);
 
             var item = new Avaliacao
             {
@@ -48,7 +57,7 @@ namespace api.Controllers
                 AppUserId = appUser.Id
             };
 
-            var retono = await _AvaliacaoRepo.CreateOrUpdateAsync(PostDto.PostId,item);
+            var retono = await _AvaliacaoRepo.CreateOrUpdateAsync(PostDto.PostId, item);
 
             return Ok(retono);
         }

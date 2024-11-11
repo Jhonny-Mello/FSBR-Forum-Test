@@ -2,29 +2,26 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, notification } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
-import { useRegisterMutation } from "../../Services/AuthApi/authApi"; // Importando o hook
+import { useRegisterMutation } from "../../Services/AuthApi/authApi"; 
 import "./Register.css";
 
 const Register: React.FC = () => {
-  const [register] = useRegisterMutation(); // Hook para a mutação de registro
-  const [loading, setLoading] = useState(false); // Para controlar o estado de carregamento
+  const [register] = useRegisterMutation(); 
+  const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
 
-  // Função chamada quando o formulário é enviado
   const onFinish = async (values: any) => {
-    setLoading(true); // Ativa o estado de loading
+    setLoading(true); 
 
     try {
       const { username, email, password } = values;
-      const response = await register({ username, email, password })
+      await register({ username, email, password })
         .unwrap()
         .then(() => {
-          // Sucesso
           notification.success({
             message: "Registro bem-sucedido!",
             description: "Você foi registrado com sucesso.",
           });
-          // console.log("success response:", response);
           navigate("/login");
         })
         .catch((args) => {
@@ -37,18 +34,16 @@ const Register: React.FC = () => {
           
         });
     } catch (error) {
-      // Erro
       console.log("any response:", error);
       notification.error({
         message: "Erro ao registrar",
         description: "Ocorreu um erro durante o registro. Tente novamente.",
       });
     } finally {
-      setLoading(false); // Desativa o estado de loading
+      setLoading(false); 
     }
   };
 
-  // Função chamada quando a validação falha
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
@@ -83,7 +78,6 @@ const Register: React.FC = () => {
           />
         </Form.Item>
 
-        {/* Campo de Email */}
         <Form.Item
           name="email"
           rules={[
@@ -97,7 +91,6 @@ const Register: React.FC = () => {
           />
         </Form.Item>
 
-        {/* Campo de Senha */}
         <Form.Item
           name="password"
           rules={[
@@ -112,7 +105,6 @@ const Register: React.FC = () => {
           />
         </Form.Item>
 
-        {/* Campo de Confirmação de Senha */}
         <Form.Item
           name="confirmPassword"
           dependencies={["password"]}
@@ -135,20 +127,18 @@ const Register: React.FC = () => {
           />
         </Form.Item>
 
-        {/* Botão de Registro */}
         <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
             block
             className="register-form-button"
-            loading={loading} // Exibe o ícone de loading enquanto a requisição está sendo processada
+            loading={loading} 
           >
             {loading ? "Carregando..." : "Cadastrar"}
           </Button>
         </Form.Item>
 
-        {/* Link para Login */}
         <Form.Item>
           Já tem uma conta? <a href="/login">Faça login aqui!</a>
         </Form.Item>

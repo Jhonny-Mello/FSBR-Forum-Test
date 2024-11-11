@@ -11,12 +11,10 @@ import { RootState } from "../store";
 import { Comentario } from "../../Models/Comment";
 import { Avaliacao } from "../../Models/Avaliacao";
 
-// Definindo a URL base da API
 const BASE_URL = "https://localhost:7281/api/";
 
 const token = localStorage.getItem("token");
 
-// Serviço RTK Query para Posts
 export const authApi = createApi({
   reducerPath: "postApi",
   baseQuery: fetchBaseQuery({
@@ -75,7 +73,6 @@ export const authApi = createApi({
     }),
     createPost: builder.mutation<Post, { title: string; Content: string }>({
       query: ({ title, Content }) => {
-        // const postDto = ;
         console.log({ title, Content })
         return {
           url: "Post",

@@ -8,8 +8,6 @@ type Props = { children: React.ReactNode };
 const ProtectedRoute = ({ children }: Props) => {
   const location = useLocation();
   const { isLoggedIn } = useAuth();
-  var saida = isLoggedIn();
-  console.log("apenas um teste:" + saida);
 
   return isLoggedIn() ? (
     <>

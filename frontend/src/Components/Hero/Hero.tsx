@@ -17,8 +17,7 @@ const Hero: React.FC<Props> = () => {
             Bem vindo, me chamo Jhonny e minha proposta de aplicação para o teste é um simples fórum.
           </p>
           <p style={{ fontSize: '14px', color: '#777', marginTop: '20px', marginInline: '22px', fontFamily: 'monospace' }}>
-            Neste fórum o usuário precisa se cadastrar para poder enviar publicações, e também para 
-            poder avaliar e responder a mesma.
+            Neste fórum é possivel realizar publicações e avaliar ou comentar outras publicações, e é claro edita-las ou exclui-las.
           </p>
           <div style={{ marginTop: '30px' }}>
             <Link to="/login">

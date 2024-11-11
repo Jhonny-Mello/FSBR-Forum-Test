@@ -31,7 +31,6 @@ export interface PagedResponse<T> {
   TotalRecords: number;
   isFirstpage: boolean;
   isLastpage: boolean;
-  
 }
 
 export interface GenericPaginationModel<T> {

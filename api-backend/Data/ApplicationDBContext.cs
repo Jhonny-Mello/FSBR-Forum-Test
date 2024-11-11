@@ -101,6 +101,7 @@ namespace api.Data
                 {
                     Id = adminuserid,
                     UserName = "Jhonny",
+                    Email = "jhonnymello505@gmail.com",
                     NormalizedUserName = "Jhonny Mello",
                     PasswordHash = hasher.HashPassword(null, "Apenas_umt4st4de$senh4")
                 },
@@ -108,10 +109,12 @@ namespace api.Data
                 {
                     Id = useruserid.ToString(),
                     UserName = "Heloyza",
+                    Email = "Heloyzamorais.82@gmail.com",
                     NormalizedUserName = "Heloyza Morais",
                     PasswordHash = hasher.HashPassword(null, "Jesuse10-90w74hj")
                 }
            };
+
             builder.Entity<AppUser>().HasData(users);
 
 

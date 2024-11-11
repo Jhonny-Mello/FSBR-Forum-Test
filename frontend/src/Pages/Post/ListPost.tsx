@@ -30,9 +30,11 @@ import {
   EditOutlined,
   SaveOutlined,
   DeleteOutlined,
+  ArrowRightOutlined,
+  ArrowLeftOutlined,
 } from "@ant-design/icons";
 import { Comentario } from "../../Models/Comment";
-import hero from "../../Components/Hero/Hero.png";
+import hero from "../../../public/usericon.png";
 import { useAuth } from "../../Services/AuthApi/useAuth";
 
 const PostsList: React.FC = () => {
@@ -43,25 +45,26 @@ const PostsList: React.FC = () => {
     pageSize: 5,
     Value: { IsDescending: true },
   });
-  
+
   const [updatePost] = useUpdatePostMutation();
   const [createAvaliacao] = useCreateAvaliacaoMutation();
   const [createComment] = useCreateCommentMutation();
   const [UpdateComment] = useUpdateCommentMutation();
   const [DeleteComment] = useDeleteCommentMutation();
   const [DeletePost] = useDeletePostMutation();
-
-  const [rating, setRating] = useState<number>(0);
+  const { user } = useAuth();
 
   const handleAddRating = async (postId: string, value: number) => {
     console.log(value);
     if (value > 0) {
-      await createAvaliacao({ postId, value });
+      await createAvaliacao({ postId, value }).then(response=>{console.log(response)})
+      .catch(response=>{console.log(response)});
       refetch();
       setPagination({ ...pagination, pageNumber: pagination.pageNumber });
     }
   };
 
+  const [rating, setRating] = useState<number>(0);
   const [isEditing, setIsEditing] = useState<{ [postId: string]: boolean }>({});
   const [editedPost, setEditedPost] = useState<{
     [postId: string]: { title: string; content: string };
@@ -165,7 +168,7 @@ const PostsList: React.FC = () => {
   };
 
   const handleAddComment = async (postId: string) => {
-    if (newCommentContent[postId].trim() === "") return; // Não permite comentário vazio
+    if (newCommentContent[postId].trim() === "") return;
     console.log(newCommentContent[postId]);
     try {
       await createComment({ postId, content: newCommentContent[postId] })
@@ -177,21 +180,74 @@ const PostsList: React.FC = () => {
         });
       newCommentContent[postId] = "";
       visibleCommentarea[postId] = false;
-      refetch(); // Recarrega os dados dos comentários
+      refetch(); 
       setPagination({ ...pagination, pageNumber: pagination.pageNumber });
     } catch (error) {
       console.error("Erro ao adicionar comentário:", error);
     }
   };
-
+  
   if (isLoading) return <div>Carregando...</div>;
   if (error) return <div>Erro ao carregar postagens</div>;
+  
   if (!data?.data?.length) {
-    return <p>No posts found.</p>;
+    return (
+      <>
+        <p>Nenhuma publicação foi encontrada.</p>
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          {data != null && (
+            <Button
+              onClick={() =>
+                setPagination({
+                  ...pagination,
+                  pageNumber: 1,
+                })
+              }
+              disabled={data?.isFirstpage}
+              icon={<ArrowLeftOutlined />}
+            ></Button>
+          )}
+          <Button
+            onClick={() =>
+              setPagination({
+                ...pagination,
+                pageNumber: pagination.pageNumber - 1,
+              })
+            }
+            disabled={data?.isFirstpage}
+            icon={<LeftOutlined />}
+          >
+            Anterior
+          </Button>
+          
+          <Button
+            onClick={() =>
+              setPagination({
+                ...pagination,
+                pageNumber: pagination.pageNumber + 1,
+              })
+            }
+            disabled={data?.isLastpage}
+            icon={<RightOutlined />}
+          >
+            Próximo
+          </Button>
+          {data != null && (
+            <Button
+              onClick={() =>
+                setPagination({
+                  ...pagination,
+                  pageNumber: data?.TotalPages,
+                })
+              }
+              disabled={!data?.isLastpage}
+              icon={<ArrowRightOutlined />}
+            ></Button>
+          )}
+        </div>
+      </>
+    );
   }
-
-  const { user, token, logout, isLoggedIn } = useAuth();
-
   return (
     <div>
       <h3>Fórum FSBR test</h3>
@@ -200,7 +256,6 @@ const PostsList: React.FC = () => {
           const averagePostRating = calculateAverageRating(
             post.avaliacoes.map((x) => x.value)
           );
-
           const isEditingPost = isEditing[post.id];
           const editedTitle = editedPost[post.id]?.title || post.tema;
           const editedContent =
@@ -492,6 +547,18 @@ const PostsList: React.FC = () => {
         })}
       </Row>
       <div style={{ textAlign: "center", marginTop: "20px" }}>
+        {/* {data != null && (
+          <Button
+            onClick={() =>
+              setPagination({
+                ...pagination,
+                pageNumber: 1,
+              })
+            }
+            disabled={data?.isFirstpage}
+            icon={<ArrowLeftOutlined />}
+          ></Button>
+        )} */}
         <Button
           onClick={() =>
             setPagination({
@@ -499,11 +566,31 @@ const PostsList: React.FC = () => {
               pageNumber: pagination.pageNumber - 1,
             })
           }
-          disabled={data.isFirstpage}
+          disabled={data?.isFirstpage}
           icon={<LeftOutlined />}
         >
           Anterior
         </Button>
+        {Array.from({ length: 5 }, (_, index) => {
+          const pageNumber = pagination.pageNumber - 2 + index;
+          if (pageNumber > 0 && pageNumber <= data.TotalPages) {
+            return (
+              <Button
+                key={pageNumber}
+                onClick={() =>
+                  setPagination({
+                    ...pagination,
+                    pageNumber: pageNumber,
+                  })
+                }
+                disabled={pageNumber === pagination.pageNumber}
+              >
+                {pageNumber}
+              </Button>
+            );
+          }
+          return null;
+        })}
         <Button
           onClick={() =>
             setPagination({
@@ -511,11 +598,21 @@ const PostsList: React.FC = () => {
               pageNumber: pagination.pageNumber + 1,
             })
           }
-          disabled={data.isLastpage}
+          disabled={data?.isLastpage}
           icon={<RightOutlined />}
         >
           Próximo
         </Button>
+        {/* <Button
+          onClick={() =>
+            setPagination({
+              ...pagination,
+              pageNumber: data?.TotalPages - 1,
+            })
+          }
+          disabled={data?.isLastpage}
+          icon={<ArrowRightOutlined />}
+        ></Button> */}
       </div>
     </div>
   );

@@ -1,0 +1,40 @@
+#hero {
+    padding: 80px 0;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .text-content {
+    max-width: 600px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .text-content h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .text-content p {
+    font-size: 18px;
+    color: #777;
+    margin-top: 20px;
+  }
+  
+  .text-content .ant-btn {
+    margin-top: 30px;
+    background-color: #32cd32;
+    border-color: #32cd32;
+  }
+  
+  .image-content {
+    margin-left: 30px;
+  }
+  

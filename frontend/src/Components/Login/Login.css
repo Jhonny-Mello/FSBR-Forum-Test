@@ -1,0 +1,42 @@
+/* Container principal */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-form {
+  max-width: 100%;
+}
+
+.login-form-button {
+  background-color: #1890ff;
+  border-color: #1890ff;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.login-form-button:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+/* Link de "Esqueceu a senha" */
+.login-form-forgot {
+  float: right;
+  font-size: 14px;
+}
+
+a {
+  color: #1890ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
